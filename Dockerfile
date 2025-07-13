@@ -6,6 +6,7 @@ WORKDIR /app
 COPY req.txt /app/
 RUN pip install --upgrade pip && pip install -r req.txt
 ADD . /app/
-WORKDIR /app/table_service/
+WORKDIR /app/exceltopostgresql/
+RUN chmod +x run.sh
 
-ENTRYPOINT ["python manage.py runserver 0.0.0.0:8000"]
+ENTRYPOINT ["/app/exceltopostgresql/run.sh"]
