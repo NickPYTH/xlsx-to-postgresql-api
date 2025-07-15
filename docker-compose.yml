@@ -23,6 +23,13 @@ services:
       - "8005:8000"
     networks:
       - exceltopostgresql_network
+  client:
+    build:
+      ./client
+    depends_on:
+      - app
+    ports:
+      - "8006:80"
 
 networks:
   exceltopostgresql_network:
