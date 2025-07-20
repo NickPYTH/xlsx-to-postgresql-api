@@ -38,6 +38,7 @@ def map_dtypes_to_postgres(df):
 
 def create_postgres_table(engine, table_name, column_types, if_exists='replace'):
     """Создание таблицы в PostgreSQL с правильным использованием SQLAlchemy"""
+    print('start load to post')
     with engine.begin() as conn:  # Используем begin() для управления транзакцией
         conn.execute(text(f"DROP TABLE IF EXISTS {table_name}"))  # Используем text()
         
@@ -100,7 +101,7 @@ def upload_xlsx_to_postgres(request):
         
         # Определение типов колонок
         column_types = map_dtypes_to_postgres(df)
-        
+        print("we are here")
         # Создание таблицы
         try:
             create_postgres_table(engine, table_name, column_types, if_exists)
@@ -110,7 +111,8 @@ def upload_xlsx_to_postgres(request):
                 {"error": f"Failed to create table: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
+        print('start load')
+        print(df.head())
         # Загрузка данных
         try:
             df.to_sql(
